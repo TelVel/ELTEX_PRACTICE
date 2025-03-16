@@ -65,3 +65,43 @@ mv eltex-pg1-v13_part3.log ELTEX_PRACTICE/module1/task1
 mv practice2_part1.log ELTEX_PRACTICE/module1/task2
 mv practice2_part2.log ELTEX_PRACTICE/module1/task2
 mv practice2_part3.log ELTEX_PRACTICE/module1/task2
+git add .
+git status
+#On branch main
+#Your branch is up to date with 'origin/main'.
+#
+#Changes to be committed:
+#  (use "git restore --staged <file>..." to unstage)
+#	new file:   module1/task1/eltex-pg1-v13_part2.log
+#	new file:   module1/task1/eltex-pg1-v13_part3.log
+#	new file:   module1/task1/report_part1.txt
+#	new file:   module1/task2/practice2_part1.log
+#	new file:   module1/task2/practice2_part2.log
+#	new file:   module1/task2/practice2_part3.log
+git commit
+#[main d3d4330] Reports for first and second tasks
+# 6 files changed, 1284 insertions(+)
+# create mode 100644 module1/task1/eltex-pg1-v13_part2.log
+# create mode 100644 module1/task1/eltex-pg1-v13_part3.log
+# create mode 100644 module1/task1/report_part1.txt
+# create mode 100644 module1/task2/practice2_part1.log
+# create mode 100644 module1/task2/practice2_part2.log
+# create mode 100644 module1/task2/practice2_part3.log
+git push
+#Enumerating objects: 12, done.
+#Counting objects: 100% (12/12), done.
+#Delta compression using up to 2 threads
+#Compressing objects: 100% (11/11), done.
+#Writing objects: 100% (11/11), 24.07 KiB | 12.03 MiB/s, done.
+#Total 11 (delta 0), reused 0 (delta 0), pack-reused 0
+#To https://github.com/TelVel/ELTEX_PRACTICE.git
+#   9043da6..d3d4330  main -> main
+
+mkdir ~/ELTEX_PRACTICE_clone && cd ~/ELTEX_PRACTICE_clone
+git clone https://github.com/TelVel/ELTEX_PRACTICE.git
+#Cloning into 'ELTEX_PRACTICE'...
+#remote: Enumerating objects: 14, done.
+#remote: Counting objects: 100% (14/14), done.
+#remote: Compressing objects: 100% (12/12), done.
+#remote: Total 14 (delta 0), reused 14 (delta 0), pack-reused 0 (from 0)
+#Receiving objects: 100% (14/14), 24.27 KiB | 261.00 KiB/s, done.
