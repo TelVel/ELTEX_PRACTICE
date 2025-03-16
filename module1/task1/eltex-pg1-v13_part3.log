@@ -1,0 +1,12 @@
+mkdir -p D1/D2/D3
+touch D1/D2/file.txt
+ln -s /home/eltex-pg1-v13/D1/D2/file.txt softlink.txt
+ln /home/eltex-pg1-v13/D1/D2/file.txt hardlink.txt
+ls -ali
+mv file.txt /home/eltex-pg1-v13/D1
+rm -r D2
+find / -type f -size +50M 2>/dev/null
+find ~ -type f -mtime -1
+which find
+file /usr/bin/find
+file /boot/initrd.img*

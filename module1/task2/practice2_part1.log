@@ -1,0 +1,78 @@
+ssh-keygen
+ssh-copy-id root@172.16.9.187
+ssh root@172.16.9.187
+useradd -m -s /bin/bash/ user1
+passwd user1
+#New password: 0000
+#Retype new password: 0000
+adduser user2
+adduser user3
+usermod -s /usr/sbin/nologin user3
+su user3
+su -s /bin/bash user3
+addgroup users_practice_2:
+usermod -G users_practice_2 user1
+usermod -G users_practice_2 user2
+usermod -G users_practice_2  user3
+mkdir share
+chown users_practice_2 /opt/share
+stat /opt/share
+umask 004 в .profile
+su - user1
+touch file1.txt
+su - user2
+touch file2.txt
+su -s /bin/bash user3
+touch file3.txt
+su - user1
+rm file2.txt
+chmod +t /opt/share
+su -s /bin/bash user3
+rm file1.txt
+#rm: cannot remove 'file1.txt': Operation mot permitted
+su - user1
+dmesg
+chage -M 10 user3
+chage -M 10 user2
+chage -M 10 user1
+chage -l user1
+nano /etc/motd
+rsync -azvh /etc/ ~/etc_backup
+tar -cvf archive.tar etc_backup/
+tar -zcvf archive.tar.gz etc_backup/
+tar -jcvf archive.tar.bz etc_backup/
+7z a archive.tar.7z archive.tar
+ls -lh
+#total 5.6M
+#-rw-r--r--   1 root root 3.4M Mar 15 12:27 archive.tar
+#-rw-r--r--   1 root root 475K Mar 15 11:20 archive.tar.7z
+#-rw-r--r--   1 root root 547K Mar 15 11:52 archive.tar.bz
+#-rw-r--r--   1 root root 581K Mar 15 12:28 archive.tar.gz
+#drwxr-xr-x 109 root root 4.0K Mar 15 11:59 etc_backup
+#drwxr-xr-x   3 root root 4.0K Mar 15 12:24 etc_backup_7zip
+#drwxr-xr-x   3 root root 4.0K Mar 15 12:29 etc_backup_gzip
+#-rw-r--r--   1 root root  153 Mar 15 11:43 motd.tar.gz
+#-rw-r--r--   1 root root 1.0K Mar 16 09:11 practice2_part1.log
+#-rw-r--r--   1 root root 109K Mar 16 08:24 practice2_part2.log
+#-rw-r--r--   1 root root 2.4K Mar 16 08:49 practice2_part3.log
+du -sh ~/etc_backup
+#6.2M	/root/etc_backup
+touch /etc/motd
+rsync -azvh /etc/ /root/etc_backup
+#motd 
+tar -ufv archive.tar /root/etc_backup/
+tar -zfv archive.tar.gz archive.tar
+tar -df archive.tar.bz -C /root/etc_backup
+#etc_backup/etc/motd: Mod time differs
+#etc_backup/etc/motd: Size differs
+mkdir etc_backup_gzip
+mkdir etc_backup_7zip
+tar -xvf archive.tar.gz /root/etc_backup_gzip
+7z x archive.tar.7z /root/etc_backup_7zip
+tar -xvf /root/etc_backup_gzip/archive.tar /root/etc_backup_gzip/
+tar -xvf /root/etc_backup_7zip/archive.tar /root/etc_backup_7zip/  
+diff -r /root/etc_backup_gzip/etc_backup /root/etc_backup_7zip/etc_backup
+diff -r /root/etc_backup_gzip/etc_backup/motd /root/etc_backup_7zip/etc_backup/motd
+#2d1
+#< 2025.03.15 18:59:23
+

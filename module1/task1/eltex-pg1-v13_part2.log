@@ -1,0 +1,16 @@
+screen -S eltex-pg1-v13_part2
+ls *TAB TAB*
+HIST *TAB TAB*
+echo $HIST TABx2*
+echo $HISTFILESIZE
+vim $USER_part.log
+ls .*
+export HISTTIMEFORMAT='%F %T '
+history
+export PROMPT_COMMAND='history -a'
+export DATE=$(date +%F)
+export TIME=$(date +%H:%M:%S)
+export DATE_TIME="$DATE $TIME"
+find /bin/ /sbin/ -name '*[0-9]*'
+export PS1="${USER}@${HOSTNAME}-$(date +%H:%M)>"
+mkdir $(date +%Y):{1..12}
