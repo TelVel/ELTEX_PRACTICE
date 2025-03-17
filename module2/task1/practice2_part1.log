@@ -37,7 +37,7 @@ chage -M 10 user2
 chage -M 10 user1
 chage -l user1
 nano /etc/motd
-rsync -azvh /etc/ ~/etc_backup
+rsync -a /etc/ ~/etc_backup
 tar -cvf archive.tar etc_backup/
 tar -zcvf archive.tar.gz etc_backup/
 tar -jcvf archive.tar.bz etc_backup/
