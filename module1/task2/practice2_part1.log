@@ -62,17 +62,17 @@ rsync -azvh /etc/ /root/etc_backup
 #motd 
 tar -ufv archive.tar /root/etc_backup/
 tar -zfv archive.tar.gz archive.tar
-tar -df archive.tar.bz -C /root/etc_backup
+tar -df archive.tar -C /root/
 #etc_backup/etc/motd: Mod time differs
 #etc_backup/etc/motd: Size differs
 mkdir etc_backup_gzip
 mkdir etc_backup_7zip
-tar -xvf archive.tar.gz /root/etc_backup_gzip
-7z x archive.tar.7z /root/etc_backup_7zip
+tar -xvf archive.tar.gz -C /root/etc_backup_gzip
+7z x archive.tar.7z -o /root/etc_backup_7zip
 tar -xvf /root/etc_backup_gzip/archive.tar /root/etc_backup_gzip/
 tar -xvf /root/etc_backup_7zip/archive.tar /root/etc_backup_7zip/  
-diff -r /root/etc_backup_gzip/etc_backup /root/etc_backup_7zip/etc_backup
-diff -r /root/etc_backup_gzip/etc_backup/motd /root/etc_backup_7zip/etc_backup/motd
-#2d1
-#< 2025.03.15 18:59:23
+diff etc_backup_7zip/etc_backup/motd etc_backup_gzip/etc_backup/motd 
+#1a2
+#> 2025.03.15 18:59:23
+
 
