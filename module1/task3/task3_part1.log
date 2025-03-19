@@ -1,1 +1,57 @@
-su - user1
+ps -eLo nlwp,pid,cmd | awk ' >1 {print -bash}' | uniq
+#NLWP     PID CMD
+#   7     356 /sbin/multipathd -d -s
+#   2     677 /usr/lib/systemd/systemd-timesyncd
+#   4     692 /usr/lib/polkit-1/polkitd --no-debug
+#   2     694 /usr/sbin/qemu-ga
+#   6     703 /usr/libexec/udisks2/udisksd
+#   4     713 /usr/sbin/rsyslogd -n -iNONE
+#   2     720 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+#   4     750 /usr/sbin/ModemManager
+#   6    1117 /usr/libexec/fwupd/fwupd
+#   4    1124 /usr/libexec/upowerd
+"top" then press "f" and press "SPACE" on fields "VIRT RES SHR"
+then press "SPACE" on field "RUSER", then hold "->" button and move "RUSER" after "USER"
+"passwd user2" as user1
+press "o" then type "RUSER=user1"
+for passwd press "L" then type "passwd" 
+press "k" and type signal numbers "15", "2", "3", "9"
+#Changing password for user1.
+#Current password: Killed
+vim ~/file_task3.txt
+press ctrl + z
+#[1]+  Stopped                 vim ~/file_task3.txt
+sleep 600
+#^Z
+#[2]+  Stopped                 sleep 600
+jobs
+#[1]-  Stopped                 vim ~/file_task3.txt
+#[2]+  Stopped                 sleep 600
+sleep 600 &
+#[3] 22138
+jobs
+#[1]-  Stopped                 vim ~/file_task3.txt
+#[2]+  Stopped                 sleep 600
+#[3]   Running                 sleep 600 &
+ps axl
+#F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+#0  1001   22138   22080  20   0   5684  2048 hrtime S    pts/2      0:00 sleep 600
+#1     0   22141       2  20   0      0     0 -      I    ?          0:00 [kworker/0:0-events]
+#1     0   22143       2  20   0      0     0 -      I    ?          0:00 [kworker/u4:1-events_unbound]
+#0  1001   22146   22080  20   0  10916  4224 -      R+   pts/2      0:00 ps axl
+renice 10 22138
+#22138 (process ID) old priority 0, new priority 10 
+ps axl
+#F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+#0  1001   22138   22080  30  10   5684  2048 hrtime SN   pts/2      0:00 sleep 600
+fg %1
+#vim ~/file_task3.txt
+#[3]   Done                    sleep 600
+kill -15 %1
+#[1]+  Terminated              sleep 600
+trap 'echo "Меня голыми руками не возьмешь!"' SIGQUIT 
+#Меня голыми руками не возьмешь!$ ^\
+trap 'echo "Меня голыми руками не возьмешь!"' SIGINT 
+#Меня голыми руками не возьмешь!$ ^C
+#
+#Меня голыми руками не возьмешь!$ ^C
