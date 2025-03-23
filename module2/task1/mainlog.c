@@ -27,7 +27,7 @@ void addContact(Person* contactlist, int cnt, char* LastName, char* FirstName, c
     NewCont.id = cnt;
     strncpy(NewCont.LastName, LastName, 20);
     strncpy(NewCont.FirstName, FirstName, 20);
-    strncpy(NewCont.MiddleName, MiddleName, 20);
+    strncpy(NewCont.MiddleName, MiddleName, 20);mv
     strncpy(NewCont.Workplace, Workplace, 40);
     strncpy(NewCont.Social.EmailAddress, Email, 40);
     strncpy(NewCont.Social.Telegram, Telegram, 40);
