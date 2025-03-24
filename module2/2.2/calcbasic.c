@@ -47,7 +47,7 @@ int main(){
             case 4:
                 printf("Enter your numbers: ");
                 scanf("%f %f", &a, &b);
-                printf("Divided = %f\n", div(a,b));
+                if (b == 0) printf("Can't divide by zero\n"); else printf("Divided = %f\n", div(a,b));
                 break;
             default:
                 break;
