@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 float sum (float a, float b) {
     return a+b;
@@ -13,6 +14,9 @@ float mult (float a, float b) {
 float div (float a, float b) {
     return a/b;
 }
+float powa(float a, float b){
+    return pow(a, b);
+}
 
 int main(){
     float a = 0, b = 0;
@@ -24,6 +28,7 @@ int main(){
         printf("2. Subtract b from a\n");
         printf("3. Multiply a and b\n");
         printf("4. Divide a by b\n");
+        printf("5. Power a by b\n");
         printf("0. Exit\n");
         printf("Enter Option: ");
         scanf("%d", &cmd);
@@ -48,6 +53,10 @@ int main(){
                 printf("Enter your numbers: ");
                 scanf("%f %f", &a, &b);
                 if (b == 0) printf("Can't divide by zero\n"); else printf("Divided = %f\n", div(a,b));
+            case 5:
+                printf("Enter your numbers: ");
+                scanf("%f %f", &a, &b);
+                printf("Powa = %f\n", powa(a,b));
                 break;
             default:
                 break;

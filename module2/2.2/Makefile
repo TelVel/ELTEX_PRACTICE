@@ -1,4 +1,4 @@
 all:
-	gcc calcbasic.c -o calcbasic
+	gcc calcbasic.c -lm -o calcbasic
 clean:
 	rm -f calcbasic
