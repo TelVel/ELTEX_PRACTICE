@@ -1,4 +1,4 @@
 all:
-	gcc chmod.c -lm -o chmod
+	gcc chmod.c -o chmod
 clean:
 	rm -f chmod
