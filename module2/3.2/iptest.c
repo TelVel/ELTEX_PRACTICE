@@ -33,11 +33,9 @@ int main (int argc, char* argv[]){
     uint32_t iptemp;
     uint32_t subnet = ipToUint(ip);
     uint32_t maskuint = ipToUint(mask);
-    printf("%X\n", subnet);
-    printf("%X\n", maskuint);
     for (int i = 0; i < N; i++){
         for (int j = 4; j > 0; --j){ 
-            uint8_t gquad= (uint8_t)(rand() % 254);
+            uint8_t gquad= (uint8_t)(rand() % 255);
             iptemp = (iptemp << 8) | gquad;
         }
         cnt += SubnetTest(iptemp, subnet, maskuint);
