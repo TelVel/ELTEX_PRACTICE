@@ -5,13 +5,20 @@
 #include <stdlib.h>
 
     void IntToBin(int num, char *binary_int) {
+        char buffer[9];
         for (int i = 0; i < 3; i++)
         {
             int digit = num % 10;
             for (int j = 0; j < 3; j++) {
-                binary_int[2-j+i*3] = (digit & (1<<j)) ? '1' : '0';
+                buffer[2-j+i*3] = (digit & (1<<j)) ? '1' : '0';
             }
             num /=10;
+        }
+        for(int i = 0; i < 3; i++)
+        {
+            binary_int[i] = buffer[6+i];
+            binary_int[3+i] = buffer[3+i];
+            binary_int[6+i] = buffer[i];
         }
         binary_int[9] = '\0';
     }
