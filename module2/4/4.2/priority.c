@@ -10,17 +10,14 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
-// Структура очереди
 typedef struct {
     Node* head;
 } PriorityQueue;
 
-// Инициализация очереди
 void initQueue(PriorityQueue *queue) {
     queue->head = NULL;
 }
 
-// Добавление элемента в очередь
 void enqueue(PriorityQueue *queue, int priority, const char *message) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->priority = priority;
@@ -41,10 +38,9 @@ void enqueue(PriorityQueue *queue, int priority, const char *message) {
     }
 }
 
-// Извлечение элемента с наивысшим приоритетом
 Node* dequeue(PriorityQueue *queue) {
     if (queue->head == NULL) {
-        printf("Очередь пуста!\n");
+        printf("Empty!\n");
         return NULL;
     }
     Node* temp = queue->head;
@@ -52,7 +48,6 @@ Node* dequeue(PriorityQueue *queue) {
     return temp;
 }
 
-// Извлечение элемента с указанным приоритетом
 Node* dequeueWithPriority(PriorityQueue *queue, int priority) {
     Node* current = queue->head;
     Node* prev = NULL;
@@ -63,7 +58,7 @@ Node* dequeueWithPriority(PriorityQueue *queue, int priority) {
     }
 
     if (current == NULL) {
-        printf("Элемент с приоритетом %d не найден!\n", priority);
+        printf("Element with priority %d not found!\n", priority);
         return NULL;
     }
 
@@ -76,7 +71,6 @@ Node* dequeueWithPriority(PriorityQueue *queue, int priority) {
     return current;
 }
 
-// Извлечение элемента с приоритетом не ниже заданного
 Node* dequeueWithMinPriority(PriorityQueue *queue, int minPriority) {
     Node* current = queue->head;
     Node* prev = NULL;
@@ -87,7 +81,7 @@ Node* dequeueWithMinPriority(PriorityQueue *queue, int minPriority) {
     }
 
     if (current == NULL) {
-        printf("Элемент с приоритетом не ниже %d не найден!\n", minPriority);
+        printf("Element with priority no less than %d not found!\n", minPriority);
         return NULL;
     }
 
@@ -100,7 +94,6 @@ Node* dequeueWithMinPriority(PriorityQueue *queue, int minPriority) {
     return current;
 }
 
-// Освобождение памяти узла
 void freeNode(Node* node) {
     if (node != NULL) {
         free(node);
@@ -111,7 +104,6 @@ int main() {
     PriorityQueue queue;
     initQueue(&queue);
 
-    // Добавление элементов в очередь
     enqueue(&queue, 10, "Message 1");
     enqueue(&queue, 200, "Message 2");
     enqueue(&queue, 50, "Message 3");
@@ -120,18 +112,18 @@ int main() {
 
     Node* element = dequeue(&queue);
     if (element != NULL) {
-        printf("Извлечен наиболее приоритетный элемент: Приоритет = %d, Сообщение = %s\n", element->priority, element->message);
+        printf("Most priority: priority = %d, message = %s\n", element->priority, element->message);
         freeNode(element);
     }
 
     element = dequeueWithPriority(&queue, 50);
     if (element != NULL) {
-        printf("Извлечен элемент с приоритетом 50: Приоритет = %d, Сообщение = %s\n", element->priority, element->message);
+        printf("Extract priority 50: priority = %d, message = %s\n", element->priority, element->message);
         freeNode(element);
     }
     element = dequeueWithMinPriority(&queue, 240);
     if (element != NULL) {
-        printf("Извлечен первый элемент с приоритетом не меньше чем 240: Приоритет = %d, Сообщение = %s\n", element->priority, element->message);
+        printf("Extract priority no less than 240: priority = %d, message = %s\n", element->priority, element->message);
         freeNode(element);
     }
 }
