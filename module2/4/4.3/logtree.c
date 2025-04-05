@@ -228,6 +228,7 @@ int main() {
         printf("2. Change existing contact\n");
         printf("3. Delete existing contact\n");
         printf("4. View PhoneBook\n");
+        printf("5. View Tree\n");
         printf("0. Exit\n");
         printf("Enter Option ");
         scanf("%d", &cmd);

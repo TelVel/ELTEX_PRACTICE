@@ -94,6 +94,16 @@ Node* dequeueWithMinPriority(PriorityQueue *queue, int minPriority) {
     return current;
 }
 
+void printQueue(PriorityQueue *queue) {
+    printf("Current Queue:\n");
+    Node* current = queue->head;
+    while (current != NULL) {
+        printf("Priority: %d, Message: %s\n", current->priority, current->message);
+        current = current->next;
+    }
+    printf("\n\n");
+}
+
 void freeNode(Node* node) {
     if (node != NULL) {
         free(node);
@@ -109,19 +119,26 @@ int main() {
     enqueue(&queue, 50, "Message 3");
     enqueue(&queue, 150, "Message 4");
     enqueue(&queue, 255, "Message 5");
-
+    printQueue(&queue);
     Node* element = dequeue(&queue);
     if (element != NULL) {
         printf("Most priority: priority = %d, message = %s\n", element->priority, element->message);
         freeNode(element);
     }
-
+    printQueue(&queue);
     element = dequeueWithPriority(&queue, 50);
     if (element != NULL) {
         printf("Extract priority 50: priority = %d, message = %s\n", element->priority, element->message);
         freeNode(element);
     }
+    printQueue(&queue);
     element = dequeueWithMinPriority(&queue, 240);
+    if (element != NULL) {
+        printf("Extract priority no less than 240: priority = %d, message = %s\n", element->priority, element->message);
+        freeNode(element);
+    }
+    printQueue(&queue);
+    element = dequeueWithMinPriority(&queue, 100);
     if (element != NULL) {
         printf("Extract priority no less than 240: priority = %d, message = %s\n", element->priority, element->message);
         freeNode(element);

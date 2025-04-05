@@ -132,8 +132,37 @@ void deleteContact(DoublyLinkedList* list, int id) {
     free(current);
 }
 
-void changeContact(DoublyLinkedList* list, int id, char* LastName, char* FirstName, char* MiddleName, char* Workplace, char* Email, char* Telegram, char* Instagramm) {
+Node* getContactById(DoublyLinkedList* list, int id) {
+    Node* current = list->head;
+    while (current != NULL) {
+        if (current->contact.id == id) {
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
+void changeContact(DoublyLinkedList* list, int id, char* LastName, char* FirstName, char* MiddleName, char* Workplace, char* Email, char* Telegram, char* Instagramm, int Optional) {
+    Node* oldContact = getContactById(list, id);
+    if (oldContact == NULL) {
+        printf("Contact with id %d not found!\n", id);
+        return;
+    }
+    char oldEmail[40], oldTelegram[40], oldInstagram[40], oldMiddleName[20], oldWorkplace[20];
+    strcpy(oldEmail, oldContact->contact.Social.EmailAddress);
+    strcpy(oldTelegram, oldContact->contact.Social.Telegram);
+    strcpy(oldInstagram, oldContact->contact.Social.Instagramm);
+    strcpy(oldWorkplace, oldContact->contact.Workplace);
+    strcpy(oldMiddleName, oldContact->contact.MiddleName);
     deleteContact(list, id);
+    if (!Optional) {
+        strcpy(Email, oldEmail);
+        strcpy(Telegram, oldTelegram);
+        strcpy(Instagramm, oldInstagram);
+        strcpy(MiddleName, oldMiddleName);
+        strcpy(Workplace, oldWorkplace);
+    }
     addContact(list, id, LastName, FirstName, MiddleName, Workplace, Email, Telegram, Instagramm);
 }
 
@@ -222,7 +251,7 @@ int main() {
                 printf("Enter Instagramm: \n");
                 scanf("%s", Instagramm);
             }
-            changeContact(&contactList, id, LastName, FirstName, MiddleName, Workplace, Email, Telegram, Instagramm);
+            changeContact(&contactList, id, LastName, FirstName, MiddleName, Workplace, Email, Telegram, Instagramm, Optional);
             break;
         case 3:
             printf("Enter id: ");
