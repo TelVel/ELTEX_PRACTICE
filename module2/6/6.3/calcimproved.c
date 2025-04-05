@@ -2,13 +2,16 @@
 #include <string.h>
 #include <math.h>
 #include "calc.h"
+#include <dlfcn.h>
 
 int main(){
     float a = 0, b = 0;
     int option;
+    void* handle;
     int cmd = 1;
-    float (*operations[])(float, float) = {sum, sub, mult, div, powa};
-    int n = sizeof(operations)/sizeof(operations[0]);
+    float (*operations)(float, float);
+
+    
     while (cmd) {
         printf("Menu\n");
         printf("1. Summary of two nubmers\n");
@@ -22,10 +25,72 @@ int main(){
         fseek(stdin, 0, SEEK_END);
         if (cmd != 0)
         {
-        printf("Enter your numbers: ");
-        scanf("%f %f", &a, &b);
-        b = operations[cmd-1](a, b);
-        if (b != INFINITY) printf("Result: %f\n ", b); else printf("Can't divide by zero\n"); 
+            switch (cmd)
+            {
+            case 1:
+                handle = dlopen("lib/libsum.so", RTLD_LAZY);
+                if (!handle) {
+                    fputs (dlerror(), stderr);
+                    }
+                printf("Enter your numbers: ");
+                scanf("%f %f", &a, &b);
+                operations = dlsym(handle, "sum");
+                b = operations(a, b);
+                if (b != INFINITY) printf("Result: %f\n ", b); else printf("Can't divide by zero\n"); 
+                dlclose(handle);
+                break;
+            case 2:
+            handle = dlopen("lib/libsub.so", RTLD_LAZY);
+            if (!handle) {
+                fputs (dlerror(), stderr);
+                }
+            printf("Enter your numbers: ");
+            scanf("%f %f", &a, &b);
+            operations = dlsym(handle, "sub");
+            b = operations(a, b);
+            if (b != INFINITY) printf("Result: %f\n ", b); else printf("Can't divide by zero\n"); 
+            dlclose(handle);
+                break;
+             case 3:
+             handle = dlopen("lib/libmult.so", RTLD_LAZY);
+             if (!handle) {
+                fputs (dlerror(), stderr);
+                }
+             printf("Enter your numbers: ");
+             scanf("%f %f", &a, &b);
+             operations = dlsym(handle, "mult");
+             b = operations(a, b);
+             if (b != INFINITY) printf("Result: %f\n ", b); else printf("Can't divide by zero\n"); 
+             dlclose(handle);
+                break;
+           case 4:
+           handle = dlopen("lib/libdiv.so", RTLD_LAZY);
+           if (!handle) {
+            fputs (dlerror(), stderr);
+            }
+           printf("Enter your numbers: ");
+           scanf("%f %f", &a, &b);
+           operations = dlsym(handle, "div");
+           b = operations(a, b);
+           if (b != INFINITY) printf("Result: %f\n ", b); else printf("Can't divide by zero\n"); 
+           dlclose(handle);
+                break;
+          case 5:
+          handle = dlopen("lib/libpower.so", RTLD_LAZY);
+          if (!handle) {
+            fputs (dlerror(), stderr);
+            }
+          printf("Enter your numbers: ");
+          scanf("%f %f", &a, &b);
+          operations = dlsym(handle, "powa");
+          b = operations(a, b);
+          if (b != INFINITY) printf("Result: %f\n ", b); else printf("Can't divide by zero\n"); 
+          dlclose(handle);
+                break;
+            default:
+                break;
+            }
+
         }
     }
 }
