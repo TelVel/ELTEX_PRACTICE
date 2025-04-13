@@ -8,9 +8,7 @@
 
 int main (int argc, char* argv[])
 {
-    int p[2];
     pid_t pid;
-    pipe(p);
     if (argc < 2)
     {
         printf("Squares where?\n");
