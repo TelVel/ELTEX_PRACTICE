@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
             char buf[256];
             ssize_t bytes_read = read(fd, buf, sizeof(buf) - 1);
             close(fd);
-            while (!file_access_allowed) {
+            while (!file_access_allowed) { // if gonka
                 pause(); 
             }
             if (bytes_read > 0) {

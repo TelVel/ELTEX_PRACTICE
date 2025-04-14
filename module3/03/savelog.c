@@ -54,7 +54,6 @@ void saveToFile(DoublyLinkedList* list) {
         }
         current = current->next;
     }
-    
     close(fd);
 }
 

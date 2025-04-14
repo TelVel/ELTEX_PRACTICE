@@ -8,11 +8,19 @@
 
 int main ()
 {
+    int cmd = 1;
+    while (cmd)
+    {
     printf("> ");
     char func[10];
     int cnt;
     char temp[20];
     scanf("%s", func);
+    if (strcmp(func, "exit") == 0)
+    {
+        cmd = -1;
+        break;
+    }
     scanf("%d", &cnt);
     if (cnt <= 0) {printf("No Args\n"); exit(EXIT_FAILURE);}
     char** argv = malloc((cnt+1) * sizeof(char*));
@@ -41,8 +49,9 @@ int main ()
         waitpid(pid, NULL, 0);
         break;
     }
-    
+
     for (int i = 0; i < cnt; i++) free(argv[i]);
     free(argv);
     free(funccat);
+}
 }
