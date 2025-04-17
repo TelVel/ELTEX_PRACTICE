@@ -30,16 +30,19 @@ int main() {
         message.msg_text[strcspn(message.msg_text, "\n")] = 0;
         message.msg_type = 2;
 
-        if (msgsnd(msgid, &message, MSG_SIZE, 0) == -1) {
-            perror("msgsnd failed");
-            exit(EXIT_FAILURE);
-        }
 
         if (strcmp(message.msg_text, "exit") == 0) {
             message.msg_type = TERMINATE_PRIO;
             strcpy(message.msg_text, "TERMINATE");
-            msgsnd(msgid, &message, MSG_SIZE, 0);
+            if (msgsnd(msgid, &message, MSG_SIZE, 0) == -1) {
+                perror("msgsnd failed");
+                exit(EXIT_FAILURE);
+            }
             break;
+        }
+        if (msgsnd(msgid, &message, MSG_SIZE, 0) == -1) {
+            perror("msgsnd failed");
+            exit(EXIT_FAILURE);
         }
         ssize_t bytes = msgrcv(msgid, &message, MSG_SIZE, 0, 0); 
         if (bytes == -1) {
