@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 
         for (int i = 0; i < num_count; i++) {
             sem_lock(sem_id);
-            write_log("Child locked file access\n");
+            write_log("Child locked semaphore\n");
             int fd = open("shared.txt", O_RDONLY);
             if (fd == -1) {
                 perror("child: open");
@@ -94,15 +94,15 @@ int main(int argc, char *argv[]) {
             close(fd);
             if (bytes_read > 0) {
                 buf[bytes_read] = '\0';
-                snprintf(log_msg, sizeof(log_msg), "Child read: %s\n", buf);
+                snprintf(log_msg, sizeof(log_msg), "\tChild read: %s\n", buf);
                 write_log(log_msg);
             }
             sem_unlock(sem_id);
-            write_log("Child unlocked file access\n");
+            write_log("Child unlocked semaphore\n\n");
 
             int num = rand() % 100;
             write(pipefd[1], &num, sizeof(num));
-            snprintf(log_msg, sizeof(log_msg), "Child sent: %d\n\n", num);
+            snprintf(log_msg, sizeof(log_msg), "\tChild sent: %d\n", num);
             write_log(log_msg);
         }
 
@@ -120,10 +120,10 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < num_count; i++) {
             int num;
             read(pipefd[0], &num, sizeof(num));
-            snprintf(log_msg, sizeof(log_msg), "Parent received: %d\n\n", num);
+            snprintf(log_msg, sizeof(log_msg), "\tParent received: %d\n\n", num);
             write_log(log_msg);
             sem_lock(sem_id);
-            write_log("Parent locked file access\n");
+            write_log("Parent locked semaphore\n");
             fd = open("shared.txt", O_WRONLY | O_APPEND);
             if (fd == -1) {
                 perror("parent: open for append");
@@ -132,9 +132,10 @@ int main(int argc, char *argv[]) {
             char buf[64];
             int len = snprintf(buf, sizeof(buf), "%d\n", num);
             write(fd, buf, len);
+            write_log("\tParent wrote a number\n");
             close(fd);
             sem_unlock(sem_id);
-            write_log("Parent unlocked file access\n");
+            write_log("Parent unlocked semaphore\n\n");
         }
         close(pipefd[0]);
         wait(NULL);
