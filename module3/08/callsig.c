@@ -10,7 +10,6 @@
 #include <string.h>
 
 int log_fd = -1;
-int sem_id;
 
 void write_log(const char *message) {
     if (log_fd != -1) {
@@ -36,6 +35,7 @@ void sem_unlock(int sem_id) {
 
 int main(int argc, char *argv[]) {
     char log_msg[270];
+    int sem_id;
     log_fd = open("log.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (log_fd == -1) {
         perror("open log.txt");

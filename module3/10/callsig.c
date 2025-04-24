@@ -11,7 +11,6 @@
 #include <semaphore.h>
 #define SEM_NAME "file_access"
 
-sem_t *file_sem;
 int log_fd = -1;
 
 void write_log(const char *message) {
@@ -21,6 +20,7 @@ void write_log(const char *message) {
 }
 
 int main(int argc, char *argv[]) {
+    sem_t *file_sem;
     file_sem = sem_open(SEM_NAME, O_CREAT, 0644, 1);
     if (file_sem == SEM_FAILED) {
         perror("sem_open");

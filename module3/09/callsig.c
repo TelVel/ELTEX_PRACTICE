@@ -12,7 +12,6 @@
 #define MAX_READERS 5
 
 int log_fd = -1;
-int sem_id;
 
 void write_log(const char *message) {
     if (log_fd != -1) {
@@ -66,6 +65,7 @@ void writer_unlock(int sem_id) {
 }
 
 int main(int argc, char *argv[]) {
+    int sem_id;
     if (argc != 3) {
         fprintf(stderr, "Usage: %s <reader_count> <writer_count>\n", argv[0]);
         exit(EXIT_FAILURE);
