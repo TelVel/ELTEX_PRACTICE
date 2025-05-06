@@ -45,9 +45,10 @@ void reader(int id, int num_iterations) {
         close(fd);
         if (bytes_read > 0) {
             buf[bytes_read] = '\0';
-            snprintf(log_msg, sizeof(log_msg), "\nReader %d read: %s\n\n", id, buf);
+            snprintf(log_msg, sizeof(log_msg), "\nReader %d read: %s\n", id, buf+15);
+            write_log ("*");
             write_log(log_msg);
-            
+            write_log ("*\n");
         }
         sem_wait(mutex);
         (*read_count)--;
