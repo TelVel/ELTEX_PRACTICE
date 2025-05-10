@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
             process_packet(buffer, packet_size);
         }
     }
-    
+    //
     close(raw_socket);
     close(log_fd);
     exit(EXIT_SUCCESS);

@@ -8,7 +8,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-
+//
 void dostuff(int);
 void error(const char *msg);
 void printusers();
@@ -16,7 +16,6 @@ void receive_file(int sock, const char *filename);
 
 int* nclients;
 
-// Math operations
 float sum(float a, float b) { return a + b; }
 float sub(float a, float b) { return a - b; }
 float mult(float a, float b) { return a * b; }
@@ -45,7 +44,6 @@ void receive_file(int sock, const char *filename) {
     ssize_t bytes_received;
     size_t total_bytes = 0;
 
-    // Receive file size first
     if (read(sock, &file_size, sizeof(file_size)) < 0) {
         error("ERROR receiving file size");
     }
@@ -80,8 +78,7 @@ int main(int argc, char *argv[]) {
     int sockfd, newsockfd, portno, pid;
     socklen_t clilen;
     struct sockaddr_in serv_addr, cli_addr;
-    
-    // Initialize shared memory
+
     int shm_id = shm_open("/shm_nclients", O_CREAT | O_RDWR, 0666);
     if (shm_id == -1) error("shm_open failed");
     if (ftruncate(shm_id, sizeof(int)) == -1) error("ftruncate failed");

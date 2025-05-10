@@ -6,7 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h> 
-
+//
 void error(const char *msg) {
     perror(msg);
     exit(0);
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     struct hostent *server;
     char buffer[256];
     
-    printf("TCP DEMO CLIENT\n");
+    printf("TCP DEMO CLIENT (with operations)\n");
     
     if (argc < 3) {
         fprintf(stderr, "usage %s hostname port\n", argv[0]);
@@ -46,49 +46,42 @@ int main(int argc, char *argv[]) {
     if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
         error("ERROR connecting");
     
-    // Получаем приглашение ввести операцию
     bzero(buffer, 256);
     n = read(sockfd, buffer, 255);
     if (n < 0) 
         error("ERROR reading from socket");
     printf("%s", buffer);
     
-    // Вводим операцию
     bzero(buffer, 256);
     fgets(buffer, 255, stdin);
     n = write(sockfd, buffer, strlen(buffer));
     if (n < 0) 
         error("ERROR writing to socket");
     
-    // Получаем приглашение ввести первое число
     bzero(buffer, 256);
     n = read(sockfd, buffer, 255);
     if (n < 0) 
         error("ERROR reading from socket");
     printf("%s", buffer);
     
-    // Вводим первое число
     bzero(buffer, 256);
     fgets(buffer, 255, stdin);
     n = write(sockfd, buffer, strlen(buffer));
     if (n < 0) 
         error("ERROR writing to socket");
-    
-    // Получаем приглашение ввести второе число
+
     bzero(buffer, 256);
     n = read(sockfd, buffer, 255);
     if (n < 0) 
         error("ERROR reading from socket");
     printf("%s", buffer);
-    
-    // Вводим второе число
+
     bzero(buffer, 256);
     fgets(buffer, 255, stdin);
     n = write(sockfd, buffer, strlen(buffer));
     if (n < 0) 
         error("ERROR writing to socket");
-    
-    // Получаем результат
+
     bzero(buffer, 256);
     n = read(sockfd, buffer, 255);
     if (n < 0) 

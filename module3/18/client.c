@@ -29,6 +29,7 @@ void send_file(int sock, const char *filename) {
     }
     file_size = st.st_size;
 
+    // Send file size first
     long net_file_size = htonl(file_size);
     if (write(sock, &net_file_size, sizeof(net_file_size)) < 0) {
         error("ERROR sending file size");

@@ -11,10 +11,10 @@
 #include <semaphore.h>
 #include <sys/mman.h>
 
-sem_t *mutex;          // Protects `read_count`
-sem_t *rw_mutex;       // Ensures exclusive write access
-sem_t *writer_block;   // Prevents writer starvation
-int *read_count;       // Shared counter for active readers
+sem_t *mutex;
+sem_t *rw_mutex;
+sem_t *writer_block;
+int *read_count;
 
 int log_fd = -1;
 
@@ -46,9 +46,9 @@ void reader(int id, int num_iterations) {
         if (bytes_read > 0) {
             buf[bytes_read] = '\0';
             snprintf(log_msg, sizeof(log_msg), "\nReader %d read: %s\n", id, buf+15);
-            write_log ("*");
+            write_log ("*/");
             write_log(log_msg);
-            write_log ("*\n");
+            write_log ("/*\n");
         }
         sem_wait(mutex);
         (*read_count)--;
