@@ -1,7 +1,7 @@
 all:
 	gcc client.c -o client
 	gcc server.c -o server
-	mkdir servdir
+	mkdir -p servdir
 	touch bin.txt
 	date +%c > bin.txt
 clean:
