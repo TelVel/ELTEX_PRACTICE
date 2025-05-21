@@ -1,0 +1,70 @@
+На корневом
+vIOS-L2-01>enable  
+vIOS-L2-01#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+vIOS-L2-01(config)#spanning-tree vlan 1 root primary
+
+На остальных:
+sh spanning-tree # показывает информацию по stp
+
+Через Edit config ставим ip в одной подсети у пк 
+
+пинги проверки
+PC1> ping 192.168.1.12
+84 bytes from 192.168.1.12 icmp_seq=1 ttl=64 time=2.769 ms
+84 bytes from 192.168.1.12 icmp_seq=2 ttl=64 time=4.131 ms
+
+PC1> ping 192.168.1.13
+84 bytes from 192.168.1.13 icmp_seq=1 ttl=64 time=12.444 ms
+
+PC1> ping 192.168.1.14
+84 bytes from 192.168.1.14 icmp_seq=1 ttl=64 time=21.984 ms
+
+PC1> ping 192.168.1.15
+84 bytes from 192.168.1.15 icmp_seq=1 ttl=64 time=18.522 ms
+84 bytes from 192.168.1.15 icmp_seq=2 ttl=64 time=13.955 ms
+84 bytes from 192.168.1.15 icmp_seq=3 ttl=64 time=5.768 ms
+84 bytes from 192.168.1.15 icmp_seq=4 ttl=64 time=21.648 ms
+
+PC1> ping 192.168.1.16
+84 bytes from 192.168.1.16 icmp_seq=1 ttl=64 time=18.865 ms
+84 bytes from 192.168.1.16 icmp_seq=2 ttl=64 time=15.272 ms
+
+PC2> ping 192.168.1.13
+84 bytes from 192.168.1.13 icmp_seq=1 ttl=64 time=13.149 ms
+
+PC2> ping 192.168.1.14
+84 bytes from 192.168.1.14 icmp_seq=1 ttl=64 time=10.569 ms
+
+PC2> ping 192.168.1.15
+84 bytes from 192.168.1.15 icmp_seq=1 ttl=64 time=7.407 ms
+84 bytes from 192.168.1.15 icmp_seq=2 ttl=64 time=9.034 ms
+
+PC2> ping 192.168.1.16
+84 bytes from 192.168.1.16 icmp_seq=1 ttl=64 time=6.097 ms
+
+PC3> ping 192.168.1.14
+84 bytes from 192.168.1.14 icmp_seq=1 ttl=64 time=2.999 ms
+
+PC3> ping 192.168.1.15
+84 bytes from 192.168.1.15 icmp_seq=1 ttl=64 time=9.105 ms
+
+PC3> ping 192.168.1.16
+84 bytes from 192.168.1.16 icmp_seq=1 ttl=64 time=15.779 ms
+
+PC4> ping 192.168.1.15
+84 bytes from 192.168.1.15 icmp_seq=1 ttl=64 time=6.504 ms
+
+PC4> ping 192.168.1.16
+84 bytes from 192.168.1.16 icmp_seq=1 ttl=64 time=13.458 ms
+
+PC5> ping 192.168.1.16
+84 bytes from 192.168.1.16 icmp_seq=1 ttl=64 time=1.786 ms
+
+На рут порте не рутового коммутатора
+vIOS-L2-01>enable  
+vIOS-L2-01#config
+Configuring from terminal, memory, or network [terminal]? t
+Enter configuration commands, one per line.  End with CNTL/Z.
+vIOS-L2-01(config)#interface Gi1/0      
+vIOS-L2-01(config-if)#spanning-tree cost 10

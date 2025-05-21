@@ -1,0 +1,69 @@
+для портов с пк
+Switch>enable
+Switch#
+Switch#config t
+Switch(config)#interface Gi1/0
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 20
+Switch#config t
+Switch(config)#interface Gi1/1          
+Switch(config-if)#switchport mode access   
+Switch(config-if)#switchport access vlan 333
+Switch#sh vlan
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+20   VLAN20                           active    Gi1/0
+100  VLAN100                          active    
+200  VLAN0200                         active    
+300  VLAN0300                         active    
+333  VLAN333                          active    Gi1/1
+для портов между коммутаторами
+Switch#config t
+Switch(config)#interface range Gi0/0-3
+Switch(config-if-range)#switchport trunk encapsulation dot1q
+Switch(config-if-range)#switchport mode trunk
+Switch(config-if-range)#switchport trunk native vlan 333
+Switch(config-if-range)#switchport trunk allowed vlan 20,333
+
+wr mem для сохранения
+
+для коммутаторов только с коммутаторами
+Switch(config)#interface range Gi0/0-3, Gi1/0-3
+Switch(config-if-range)#switchport trunk encapsulation dot1q
+Switch(config-if-range)#switchport mode trunk
+Switch(config-if-range)#switchport trunk native vlan 333
+Switch(config-if-range)#switchport trunk allowed vlan 20,333
+
+проверка ping vlan 333
+PC2> ping 192.168.1.16
+84 bytes from 192.168.1.16 icmp_seq=1 ttl=64 time=11.378 ms
+
+PC2> ping 192.168.1.15
+host (192.168.1.15) not reachable
+
+PC2> ping 192.168.1.14
+84 bytes from 192.168.1.14 icmp_seq=1 ttl=64 time=8.008 ms
+
+PC2> ping 192.168.1.13
+host (192.168.1.13) not reachable
+
+PC2> ping 192.168.1.11 
+host (192.168.1.11) not reachable
+
+проверка ping vlan 20
+PC1> ping 192.168.1.12
+host (192.168.1.12) not reachable
+
+PC1> ping 192.168.1.13
+84 bytes from 192.168.1.13 icmp_seq=1 ttl=64 time=16.043 ms
+
+PC1> ping 192.168.1.14
+host (192.168.1.14) not reachable
+
+PC1> ping 192.168.1.15
+84 bytes from 192.168.1.15 icmp_seq=1 ttl=64 time=7.686 ms
+
+PC1> ping 192.168.1.16
+host (192.168.1.16) not reachable

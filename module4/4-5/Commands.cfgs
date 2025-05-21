@@ -1,0 +1,214 @@
+Между роутерами
+192.168.1.0 255.255.255.252 (R1-R5)
+R1 - 192.168.1.1 R5 - 192.168.1.2
+192.168.1.4 255.255.255.252 (R4-R5)
+R4 - 192.168.1.5 R5 - 192.168.1.6
+192.168.1.8 255.255.255.252 (R2-R6)
+R2 - 192.168.1.9 R6 - 192.168.1.10
+192.168.1.12 255.255.255.252 (R3-R7)
+R3 - 192.168.1.13 R7 - 192.168.1.14
+192.168.1.16 255.255.255.252 (R3-R8)
+R3 - 192.168.1.17 R8 - 192.168.1.18
+192.168.1.20 255.255.255.252 (R6-R7)
+R6 - 192.168.1.21 R7 - 192.168.1.22
+
+ПК
+192.168.2.0 255.255.255.240 (PC1-R4)
+PC1 - 192.168.2.1 R4 - 192.168.2.2
+192.168.2.16 255.255.255.240 (PC2-R5)
+PC2 - 192.168.2.17 R5 - 192.168.2.18
+192.168.2.32 255.255.255.240 (PC5-R8)
+PC5 - 192.168.2.33 R8 - 192.168.2.34
+192.168.2.48 255.255.255.240 (PC3-R6)
+PC3 - 192.168.2.49 R6 - 192.168.2.50
+192.168.2.64 255.255.255.240 (PC4-R7)
+PC4 - 192.168.2.65 R7 - 192.168.2.66
+
+Layer2Switch
+
+192.168.3.0 255.255.255.240 (Layer2Switch-(R1,R2,R3))
+Layer2Switch - 192.168.3.1 R1 - 192.168.3.2 R2 - 192.168.3.3 R3 - 192.168.3.4
+
+R4#conf t
+R4(config)#interface FastEthernet 0/0
+R4(config-if)#ip address 192.168.2.2 255.255.255.240
+R4(config-if)#interface FastEthernet 1/0            
+R4(config-if)#ip address 192.168.1.5 255.255.255.252
+R4#conf t
+R4(config)#router rip
+R4(config-router)#version 2
+R4(config-router)#network 192.168.2.0
+R4(config-router)#network 192.168.1.4
+R4(config-router)#no auto-summary 
+
+R5#conf t
+R5(config)#interface fastEthernet 0/0
+R5(config-if)#ip address 192.168.2.18 255.255.255.240
+R5(config-if)#interface fastEthernet 1/0             
+R5(config-if)#ip address 192.168.1.6 255.255.255.252 
+R5(config-if)#interface fastEthernet 2/0            
+R5(config-if)#ip address 192.168.1.2 255.255.255.252
+R5#conf t
+R5(config)#router rip
+R5(config-router)#version 2
+R5(config-router)#network 192.168.2.16
+R5(config-router)#network 192.168.1.0 
+R5(config-router)#network 192.168.1.4
+R5(config-router)#no auto-summary
+
+R1#conf t
+R1(config)#interface fastEthernet 0/0
+R1(config-if)#ip address 192.168.1.1 255.255.255.252
+R1(config-if)#interface fastEthernet 1/0            
+R1(config-if)#ip address 192.168.3.2 255.255.255.240
+R1#conf t
+R1(config)#router rip
+R1(config-router)#version 2
+R1(config-router)#network 192.168.1.0
+R1(config-router)#network 192.168.3.0
+R1(config)#router ospf 1                      
+R1(config-router)#router-id 192.168.3.2
+R1(config-router)#network 192.168.3.0 0.0.0.15 area 0
+R1(config-router)#network 192.168.1.0 0.0.0.3 area 0 
+
+R2#conf t
+R2(config)#interface fastEthernet 0/0
+R2(config-if)#ip address 192.168.3.3 255.255.255.240
+R2(config-if)#interface fastEthernet 1/0            
+R2(config-if)#ip address 192.168.1.9 255.255.255.252
+R2#conf t
+R2(config)#router ospf 1
+R2(config-router)#router-id 192.168.3.3
+R2(config-router)#network 192.168.3.0 0.0.0.15 area 0
+R2(config-router)#network 192.168.1.8 0.0.0.3 area 2   
+
+R3#conf t
+R3(config)#interface fastEthernet 0/0
+R3(config-if)#ip address 192.168.3.4 255.255.255.240       
+R3(config-if)#interface fastEthernet 1/0
+R3(config-if)#ip address 192.168.1.13 255.255.255.252 
+R3(config-if)#interface fastEthernet 2/0
+R3(config-if)#ip address 192.168.1.17 255.255.255.252
+R3#conf t
+R3(config)#router ospf 1
+R3(config-router)#router-id 192.168.3.4
+R3(config-router)#network 192.168.3.0 0.0.0.15 area 0
+R3(config-router)# network 192.168.1.12 0.0.0.3 area 2
+R3(config-router)# network 192.168.1.16 0.0.0.3 area 1
+R3(config-router)#area 1 stub no-summary
+
+R8#conf t
+R8(config)#interface fastEthernet 0/0
+R8(config-if)#ip address 192.168.1.18 255.255.255.252
+R8(config-if)#interface fastEthernet 1/0             
+R8(config-if)#ip address 192.168.2.34 255.255.255.240
+R8#conf t
+R8(config)#router ospf 1
+R8(config-router)#router-id 192.168.1.18
+R8(config-router)#network 192.168.1.16 0.0.0.3 area 1
+R8(config-router)#network 192.168.2.32 0.0.0.15 area 1
+R8(config-router)#area 1 stub
+
+R6#conf t
+R6(config)#interface fastEthernet 0/0
+R6(config-if)#ip address 192.168.1.10 255.255.255.252
+R6(config-if)#interface fastEthernet 1/0             
+R6(config-if)#ip address 192.168.2.50 255.255.255.240
+R6(config-if)#interface fastEthernet 2/0             
+R6(config-if)#ip address 192.168.1.21 255.255.255.252
+R6#conf t
+R6(config)#router ospf 1
+R6(config-router)#router-id 192.168.1.10
+R6(config-router)#network 192.168.1.8 0.0.0.3 area 2
+R6(config-router)# network 192.168.1.20 0.0.0.3 area 2
+R6(config-router)# network 192.168.2.48 0.0.0.15 area 2
+
+R7#conf t
+R7(config)#interface fastEthernet 0/0
+R7(config-if)#ip address 192.168.1.14 255.255.255.252
+R7(config-if)#interface fastEthernet 1/0             
+R7(config-if)#ip address 192.168.2.66 255.255.255.240
+R7(config-if)#interface fastEthernet 2/0             
+R7(config-if)#ip address 192.168.1.22 255.255.255.252
+R7#conf t 
+R7(config)#router ospf 1
+R7(config-router)#router-id 192.168.1.14 
+R7(config-router)# network 192.168.1.12 0.0.0.3 area 2
+R7(config-router)# network 192.168.1.20 0.0.0.3 area 2
+R7(config-router)# network 192.168.2.64 0.0.0.15 area 2
+
+
+R1#conf t
+R1(config)#router ospf 1
+R1(config-router)#redistribute rip subnets metric 100
+R1(config-router)#network 192.168.1.0 0.0.0.3 area 0
+R1(config-router)#router rip
+R1(config-router)#redistribute ospf 1 metric 5                   
+// фигня (наверное)
+R1#conf t
+R1(config)#router ospf 1                      
+R1(config-router)#redistribute rip subnets metric 10
+R1(config-router)#router rip
+R1(config-router)#redistribute ospf 1 metric 5 
+
+ТЕСТ ПИНГОВ
+PC1> ping 192.168.2.17
+84 bytes from 192.168.2.17 icmp_seq=1 ttl=62 time=30.071 ms
+
+PC1> ping 192.168.2.33
+84 bytes from 192.168.2.33 icmp_seq=1 ttl=59 time=52.785 ms
+
+PC1> ping 192.168.2.49
+84 bytes from 192.168.2.49 icmp_seq=1 ttl=59 time=51.887 ms
+
+PC1> ping 192.168.2.65
+84 bytes from 192.168.2.65 icmp_seq=1 ttl=59 time=70.224 ms
+
+PC2> ping 192.168.2.1
+84 bytes from 192.168.2.1 icmp_seq=1 ttl=62 time=34.603 ms
+
+PC2> ping 192.168.2.33
+84 bytes from 192.168.2.33 icmp_seq=1 ttl=60 time=49.993 ms
+
+PC2> ping 192.168.2.49
+84 bytes from 192.168.2.49 icmp_seq=1 ttl=60 time=55.662 ms
+
+PC2> ping 192.168.2.65
+84 bytes from 192.168.2.65 icmp_seq=1 ttl=60 time=43.705 ms
+
+PC3> ping 192.168.2.1
+84 bytes from 192.168.2.1 icmp_seq=1 ttl=59 time=59.720 ms
+
+PC3> ping 192.168.2.17
+84 bytes from 192.168.2.17 icmp_seq=1 ttl=60 time=53.868 ms
+
+PC3> ping 192.168.2.33
+84 bytes from 192.168.2.33 icmp_seq=1 ttl=60 time=60.016 ms
+
+PC3> ping 192.168.2.65
+84 bytes from 192.168.2.65 icmp_seq=1 ttl=62 time=40.030 ms
+
+PC4> ping 192.168.2.1
+84 bytes from 192.168.2.1 icmp_seq=1 ttl=59 time=54.549 ms
+
+PC4> ping 192.168.2.17
+84 bytes from 192.168.2.17 icmp_seq=1 ttl=60 time=46.696 ms
+
+PC4> ping 192.168.2.33
+84 bytes from 192.168.2.33 icmp_seq=1 ttl=61 time=34.709 ms
+
+PC4> ping 192.168.2.49
+84 bytes from 192.168.2.49 icmp_seq=1 ttl=62 time=22.773 ms
+
+PC5> ping 192.168.2.1
+84 bytes from 192.168.2.1 icmp_seq=1 ttl=59 time=68.337 ms
+
+PC5> ping 192.168.2.17
+84 bytes from 192.168.2.17 icmp_seq=1 ttl=60 time=41.223 ms
+
+PC5> ping 192.168.2.49
+84 bytes from 192.168.2.49 icmp_seq=1 ttl=60 time=41.926 ms
+
+PC5> ping 192.168.2.65
+84 bytes from 192.168.2.65 icmp_seq=1 ttl=61 time=39.214 ms
+
