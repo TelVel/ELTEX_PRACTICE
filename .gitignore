@@ -10,3 +10,9 @@
 *.lib
 *.txt
 .vscode
+*.cmd
+*.ko
+*.symvers
+*.order
+*.mod.*
+*.mod
