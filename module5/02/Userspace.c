@@ -35,10 +35,6 @@ static ssize_t proc_read(struct file *filp, char __user *buf, size_t count, loff
 
 static ssize_t proc_write(struct file *filp, const char __user *buf, size_t count, loff_t *offp)
 {
-    if (count > MAX_MSG_SIZE) {
-        return -EINVAL;
-    }
-    
     if (copy_from_user(msg, buf, count)) {
         return -EFAULT;
     }
@@ -62,10 +58,7 @@ static int __init proc_init(void)
     }
     
     proc_entry = proc_create(PROC_ENTRY_NAME, 0666, NULL, &proc_fops);
-    if (!proc_entry) {
-        kfree(msg);
-        return -ENOMEM;
-    }
+
     
     msg_len = 0;
     temp_len = 0;
