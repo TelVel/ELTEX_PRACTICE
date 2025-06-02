@@ -1,16 +1,16 @@
-obj-m += Chrdev.o
+obj-m += linkkernel.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 insert:
-	sudo insmod Chrdev.ko
+	sudo insmod linkkernel.ko
 remove:
-	sudo rmmod Chrdev.ko
+	sudo rmmod linkkernel.ko
 show:
 	dmesg | tail -3
 see_info:
-	modinfo -a Chrdev.ko
-	modinfo -d Chrdev.ko
+	modinfo -a linkkernel.ko
+	modinfo -d linkkernel.ko
 user:
 	gcc user.c -o user
 clean:
